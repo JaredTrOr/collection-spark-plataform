@@ -1,10 +1,12 @@
 package org.jared.trujillo.repository;
 
 import org.jared.trujillo.db.PostgresDatabaseConnection;
+import org.jared.trujillo.dto.Page;
 import org.jared.trujillo.interfaces.ItemRepository;
 import org.jared.trujillo.model.Item;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,6 +47,45 @@ public class PostgresItemRepository implements ItemRepository {
     @Override
     public List<Item> findAll() {
         return List.of();
+    }
+
+    @Override
+    public Page<Item> findAllPaginated(int page, int limit) {
+        int offset = (page - 1) * limit;
+
+        String dataSql = "SELECT * FROM items ORDER BY name LIMIT ? OFFSET ?";
+        List<Item> items = new ArrayList<>();
+
+        try (Connection conn = PostgresDatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(dataSql)) {
+
+            stmt.setInt(1, limit);
+            stmt.setInt(2, offset);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    items.add(mapRowToItem(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching paginated items", e);
+        }
+
+        String countSql = "SELECT COUNT(*) FROM items";
+        long totalItems = 0;
+
+        try (Connection conn = PostgresDatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(countSql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                totalItems = rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error counting items", e);
+        }
+
+        return new Page<>(items, page, limit, totalItems);
     }
 
     @Override
