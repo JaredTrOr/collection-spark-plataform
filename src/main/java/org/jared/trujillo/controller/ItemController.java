@@ -1,6 +1,7 @@
 package org.jared.trujillo.controller;
 import org.jared.trujillo.dto.HttpSimpleResponse;
 import org.jared.trujillo.dto.HttpStatus;
+import org.jared.trujillo.dto.Page;
 import org.jared.trujillo.exceptions.ResourceNotFoundException;
 import org.jared.trujillo.interfaces.JsonConverter;
 import org.jared.trujillo.model.Item;
@@ -23,6 +24,25 @@ public class ItemController {
     public void registerRoutes() {
 
         after((req, res) -> res.type("application/json"));
+
+        get("", (req, res) -> {
+           String pageParam = req.queryParamOrDefault("page", "1");
+           String limitParam = req.queryParamOrDefault("limit", "20");
+
+           int page;
+           int limit;
+           try {
+               page = Integer.parseInt(pageParam);
+               limit = Integer.parseInt(limitParam);
+           } catch (NumberFormatException e) {
+               throw new IllegalArgumentException("Query parameters 'page' and 'limit' must be numbers.");
+           }
+
+            Page<Item> itemPage = this.itemService.getPaginatedItems(page, limit);
+
+            res.status(HttpStatus.OK.getStatusCode());
+            return json.toJson(HttpSimpleResponse.success(itemPage));
+        });
 
         get("/:id", (req, res) -> {
             String idString = req.params(":id");
