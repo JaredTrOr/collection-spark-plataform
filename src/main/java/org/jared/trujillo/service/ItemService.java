@@ -1,5 +1,6 @@
 package org.jared.trujillo.service;
 
+import org.jared.trujillo.dto.Page;
 import org.jared.trujillo.exceptions.ResourceNotFoundException;
 import org.jared.trujillo.model.Item;
 import org.jared.trujillo.interfaces.ItemRepository;
@@ -21,6 +22,18 @@ public class ItemService {
 
     public List<Item> getAllItems() {
         return this.itemRepository.findAll();
+    }
+
+    public Page<Item> getPaginatedItems(int page, int limit) {
+        if (page < 1) {
+            page = 1;
+        }
+
+        if (limit < 1 || limit > 100) {
+            limit = 20;
+        }
+
+        return this.itemRepository.findAllPaginated(page, limit);
     }
 
     public Item getItemById(UUID id) {
