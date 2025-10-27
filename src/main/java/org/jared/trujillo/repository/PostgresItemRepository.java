@@ -44,6 +44,7 @@ public class PostgresItemRepository implements ItemRepository {
         }
     }
 
+    // Add implementation later
     @Override
     public List<Item> findAll() {
         return List.of();
@@ -149,6 +150,12 @@ public class PostgresItemRepository implements ItemRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Error deleting item", e);
         }
+    }
+
+    // In case needed soft deletion can be applied
+    @Override
+    public boolean softDelete(UUID uuid) {
+        return false;
     }
 
     private Item mapRowToItem(ResultSet rs) throws SQLException {

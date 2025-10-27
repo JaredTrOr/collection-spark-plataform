@@ -17,4 +17,6 @@ public interface CrudRepository <T, ID> {
     Optional<T> update(ID id, T entity);
 
     boolean delete(ID id);
+
+    boolean softDelete(ID id);
 }
