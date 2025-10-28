@@ -1,12 +1,11 @@
--- 1. Users Table
--- Stores customer information.
 CREATE TABLE users (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(255) NOT NULL,
     username VARCHAR(100) NOT NULL UNIQUE,
-    name VARCHAR(150) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    -- We will skip password/authentication for now to focus on the logic
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP WITH TIME ZONE
 );
 
 -- 2. Items Table (Our "Products")
@@ -16,7 +15,7 @@ CREATE TABLE items (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10, 2) NOT NULL,
-    -- How many we have in stock
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     inventory INT NOT NULL DEFAULT 0 CHECK (inventory >= 0)
 );
 
