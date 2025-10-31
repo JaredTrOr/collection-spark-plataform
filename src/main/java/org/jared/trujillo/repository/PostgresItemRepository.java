@@ -47,7 +47,24 @@ public class PostgresItemRepository implements ItemRepository {
     // Add implementation later
     @Override
     public List<Item> findAll() {
-        return List.of();
+
+        String dataSql = "SELECT * FROM items";
+        List<Item> items = new ArrayList<>();
+
+        try (Connection conn = PostgresDatabaseConnection.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(dataSql)) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    items.add(mapRowToItem(rs));
+                }
+            }
+
+        } catch(SQLException e) {
+            throw new RuntimeException("Error fetching paginated items", e);
+        }
+
+        return items;
     }
 
     @Override
@@ -55,35 +72,34 @@ public class PostgresItemRepository implements ItemRepository {
         int offset = (page - 1) * limit;
 
         String dataSql = "SELECT * FROM items ORDER BY name LIMIT ? OFFSET ?";
-        List<Item> items = new ArrayList<>();
-
-        try (Connection conn = PostgresDatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(dataSql)) {
-
-            stmt.setInt(1, limit);
-            stmt.setInt(2, offset);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    items.add(mapRowToItem(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error fetching paginated items", e);
-        }
-
         String countSql = "SELECT COUNT(*) FROM items";
+
+        List<Item> items = new ArrayList<>();
         long totalItems = 0;
 
-        try (Connection conn = PostgresDatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(countSql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = PostgresDatabaseConnection.getConnection()) {
 
-            if (rs.next()) {
-                totalItems = rs.getLong(1);
+            try (PreparedStatement dataStmt = conn.prepareStatement(dataSql)) {
+                dataStmt.setInt(1, limit);
+                dataStmt.setInt(2, offset);
+
+                try (ResultSet rs = dataStmt.executeQuery()) {
+                    while (rs.next()) {
+                        items.add(mapRowToItem(rs));
+                    }
+                }
             }
+
+            try (PreparedStatement countStmt = conn.prepareStatement(countSql)) {
+                try (ResultSet rs = countStmt.executeQuery()) {
+                    if (rs.next()) {
+                        totalItems = rs.getLong(1);
+                    }
+                }
+            }
+
         } catch (SQLException e) {
-            throw new RuntimeException("Error counting items", e);
+            throw new RuntimeException("Error fetching paginated items", e);
         }
 
         return new Page<>(items, page, limit, totalItems);
