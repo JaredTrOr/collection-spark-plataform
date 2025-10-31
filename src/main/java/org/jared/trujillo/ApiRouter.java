@@ -1,6 +1,7 @@
 package org.jared.trujillo;
 
 import org.jared.trujillo.controller.ItemController;
+import org.jared.trujillo.controller.ItemWebController;
 import org.jared.trujillo.controller.UserController;
 import org.jared.trujillo.dto.HttpSimpleResponse;
 import org.jared.trujillo.dto.HttpStatus;
@@ -11,16 +12,17 @@ import org.jared.trujillo.service.ItemService;
 import org.jared.trujillo.service.UserService;
 import org.jared.trujillo.utils.GsonConverter;
 
-import static spark.Spark.after;
-import static spark.Spark.path;
-import static spark.Spark.get;
-import static spark.Spark.exception;
+import static spark.Spark.*;
 
 
 public class ApiRouter {
 
+    // Api controllers
     private final ItemController itemController;
     private final UserController userController;
+
+    // Views
+    private final ItemWebController itemWebController;
 
     private final JsonConverter json;
 
@@ -35,10 +37,12 @@ public class ApiRouter {
         // Controller setup
         this.itemController = new ItemController(itemService, this.json);
         this.userController = new UserController(userService, this.json);
+        this.itemWebController = new ItemWebController(itemService);
     }
 
     public void startRoutes() {
-        after((req, res) -> res.type("application/json"));
+
+        staticFiles.location("/public");
 
         get("/", (req, res) -> {
             res.type("text/plain");
@@ -46,9 +50,12 @@ public class ApiRouter {
         });
 
         path("/api/v1", () -> {
+            after((req, res) -> res.type("application/json"));
             path("/items", this.itemController::registerRoutes);
             path("/users", this.userController::registerRoutes);
         });
+
+        path("/home", this.itemWebController::registerRoutes);
 
         exception(Exception.class, (exception, req, res) -> {
             exception.printStackTrace();
