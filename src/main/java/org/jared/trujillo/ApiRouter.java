@@ -1,9 +1,6 @@
 package org.jared.trujillo;
 
-import org.jared.trujillo.controller.ItemController;
-import org.jared.trujillo.controller.ItemWebController;
-import org.jared.trujillo.controller.PriceUpdateSocketHandler;
-import org.jared.trujillo.controller.UserController;
+import org.jared.trujillo.controller.*;
 import org.jared.trujillo.dto.HttpSimpleResponse;
 import org.jared.trujillo.dto.HttpStatus;
 import org.jared.trujillo.interfaces.JsonConverter;
@@ -24,6 +21,7 @@ public class ApiRouter {
 
     // Views
     private final ItemWebController itemWebController;
+    private final ClientWebController clientWebController;
 
     private final JsonConverter json;
 
@@ -35,10 +33,14 @@ public class ApiRouter {
         ItemService itemService = new ItemService(new PostgresItemRepository());
         UserService userService = new UserService(new PostgresUserRepository());
 
-        // Controller setup
+        // Controller API setup
         this.itemController = new ItemController(itemService, this.json);
         this.userController = new UserController(userService, this.json);
+
+        // Views controller setup
         this.itemWebController = new ItemWebController(itemService);
+        this.clientWebController = new ClientWebController(itemService);
+
     }
 
     public void startRoutes() {
@@ -58,7 +60,8 @@ public class ApiRouter {
             path("/users", this.userController::registerRoutes);
         });
 
-        path("/home", this.itemWebController::registerRoutes);
+        path("/admin-home", this.itemWebController::registerRoutes);
+        path("/client-home", this.clientWebController::registerRoutes);
 
         exception(Exception.class, (exception, req, res) -> {
             exception.printStackTrace();

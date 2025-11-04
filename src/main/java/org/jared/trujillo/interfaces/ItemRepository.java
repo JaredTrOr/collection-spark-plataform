@@ -5,4 +5,5 @@ import java.util.UUID;
 
 public interface ItemRepository extends CrudRepository<Item, UUID>{
 
+    // TODO: Create the filter function
 }

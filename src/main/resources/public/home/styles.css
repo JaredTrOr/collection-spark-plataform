@@ -1,0 +1,109 @@
+/* ==============================================
+   ADMIN-PAGE-SPECIFIC STYLES
+   ============================================== */
+
+header {
+    margin-bottom: 2rem;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap; /* Responsive */
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#search-form {
+    display: flex;
+    gap: 0.5rem;
+    flex-grow: 1; /* Allows the form to grow */
+    max-width: 400px;
+}
+
+#search-form input {
+    flex-grow: 1;
+}
+
+/* --- Item Card Styles --- */
+/* These styles are for your `_itemCard` partial */
+/* I'm assuming a structure based on your original CSS */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden; /* Clips the image */
+    box-shadow: 0 2px 8px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: var(--border-color); /* Placeholder color */
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.card-description {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-price {
+    font-weight: bold;
+    color: #28a745; /* Green price */
+    margin-bottom: 0.5rem;
+}
+
+.card-stock {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    margin-bottom: 1.5rem;
+}
+
+button.btn-edit {
+    width: 100%;
+    background-color: var(--border-color);
+}
+button.btn-edit:hover {
+    background-color: var(--secondary-text);
+}
+
+/* --- Pagination --- */
+.pagination {
+    text-align: center;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 1.1rem;
+}

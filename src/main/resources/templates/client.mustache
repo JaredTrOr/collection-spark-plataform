@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collectible Store</title>
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/client/styles.css">
+</head>
+<body>
+
+    <div id="main-content">
+        <h1>Collectibles</h1>
+        <input type="text" id="searchInput" placeholder="Search by name...">
+        <div id="connection-status">Connecting...</div>
+        
+        <div id="itemList">
+            {{#items}}
+                <div class="item" data-id="{{id}}">
+                    <h3>{{name}}</h3>
+                    <p>Category: {{category}}</p>
+                    <p>Price: $<span class="price" id="price-{{id}}">{{price}}</span></p>
+                    <button class="add-to-cart" 
+                            data-id="{{id}}" 
+                            data-name="{{name}}" 
+                            data-price="{{price}}">Add to Cart</button>
+                </div>
+            {{/items}}
+            
+            {{^items}}
+                <p>No items are currently available.</p>
+            {{/items}}
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <h2>Shopping Cart</h2>
+        <ul id="cartItems">
+            <li>Cart is empty.</li>
+        </ul>
+        <hr>
+        <h3>Total: $<span id="cartTotal">0.00</span></h3>
+        <button id="purchaseButton">Create Purchase</button>
+        <div id="purchaseStatus"></div>
+    </div>
+
+    <script src="/client/script.js" defer></script>
+
+</body>
+</html>

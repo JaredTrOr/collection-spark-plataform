@@ -1,0 +1,131 @@
+/* ==============================================
+   CLIENT-PAGE-SPECIFIC STYLES
+   ============================================== */
+
+body {
+    display: flex;
+    flex-wrap: wrap; /* Allows sidebar to wrap on small screens */
+    gap: 1.5rem;
+}
+
+#main-content {
+    flex: 3; /* Takes up 3/4 of the space */
+    min-width: 60%;
+}
+
+#sidebar {
+    flex: 1; /* Takes up 1/4 of the space */
+    min-width: 300px; /* Prevents it from getting too small */
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    height: fit-content; /* Only as tall as its content */
+    position: sticky;
+    top: 1.5rem;
+}
+
+#main-content h1 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+#searchInput {
+    margin-bottom: 1.5rem;
+}
+
+#connection-status {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    margin-bottom: 1.5rem;
+}
+
+/* Simple item list for the client */
+#itemList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.item {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+.item h3 {
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.item p {
+    color: var(--secondary-text);
+    margin-bottom: 0.5rem;
+}
+
+.item .price {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #28a745; /* Green for price */
+}
+
+.item button.add-to-cart {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Sidebar cart styles */
+#sidebar h2 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+#cartItems {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+#cartItems li {
+    background-color: var(--bg-color);
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+#sidebar h3 {
+    color: #fff;
+    margin-top: 1rem;
+}
+
+#cartTotal {
+    color: #28a745;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+#purchaseButton {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+#purchaseStatus {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--secondary-text);
+}
+
+/* Responsive wrap */
+@media (max-width: 900px) {
+    body {
+        flex-direction: column;
+    }
+    #sidebar {
+        position: static;
+        width: 100%;
+    }
+}

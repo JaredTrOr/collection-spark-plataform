@@ -1,3 +1,7 @@
+/* ==============================================
+   BASE STYLES (Your General Theme)
+   ============================================== */
+
 :root {
     --bg-color: #121212;
     --surface-color: #1e1e1e;
@@ -38,7 +42,7 @@ a:hover {
     text-decoration: underline;
 }
 
-
+/* --- General Form Elements --- */
 input[type="text"],
 input[type="number"],
 input[type="search"],
@@ -59,6 +63,7 @@ textarea {
     resize: vertical;
 }
 
+/* --- General Button Style --- */
 button {
     font-family: inherit;
     font-size: 1rem;
@@ -75,6 +80,8 @@ button:hover {
     background-color: var(--accent-hover);
 }
 
+/* --- Reusable Modal Component --- */
+/* (Used by both admin and client pages) */
 .modal-backdrop {
     position: fixed;
     top: 0;
@@ -108,6 +115,11 @@ button:hover {
     gap: 1rem;
 }
 
+.modal form label {
+    color: var(--secondary-text);
+    margin-bottom: -0.5rem; /* Pull input closer */
+}
+
 .modal-actions {
     display: flex;
     justify-content: flex-end;
@@ -121,110 +133,9 @@ button.btn-close {
 button.btn-close:hover {
     background-color: #999;
 }
-
-
-
-header {
-    margin-bottom: 2rem;
+button.btn-primary {
+    background-color: var(--accent-color);
 }
-
-header h1 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #fff;
-}
-
-.toolbar {
-    display: flex;
-    flex-wrap: wrap; /* This makes it responsive */
-    justify-content: space-between;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-#search-form {
-    display: flex;
-    gap: 0.5rem;
-    flex-grow: 1; /* Allows the form to grow */
-    max-width: 400px;
-}
-
-/* Responsive Card Layout */
-.card-container {
-    display: grid;
-    /* This is the magic for responsiveness: */
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-
-.card {
-    background-color: var(--surface-color);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    overflow: hidden; /* Clips the image */
-    box-shadow: 0 2px 8px var(--shadow-color);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px var(--shadow-color);
-}
-
-.card-img {
-    width: 100%;
-    height: 200px; /* This fixed height makes all cards uniform */
-    object-fit: cover; /* Prevents images from stretching/squashing */
-}
-
-.card-body {
-    padding: 1.5rem;
-}
-
-.card-title {
-    font-size: 1.25rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-}
-
-.card-description {
-    font-size: 0.9rem;
-    color: var(--secondary-text);
-    margin-bottom: 1rem;
-    /* Clamps the text to 2 lines */
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.card-price {
-    font-weight: bold;
-    color: var(--primary-text);
-    margin-bottom: 0.5rem;
-}
-
-.card-stock {
-    font-size: 0.9rem;
-    color: var(--secondary-text);
-    margin-bottom: 1.5rem;
-}
-
-button.btn-edit {
-    width: 100%;
-    background-color: var(--border-color);
-}
-button.btn-edit:hover {
-    background-color: var(--secondary-text);
-}
-
-/* Pagination */
-.pagination {
-    text-align: center;
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-    font-size: 1.1rem;
+button.btn-primary:hover {
+    background-color: var(--accent-hover);
 }
