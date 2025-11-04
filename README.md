@@ -16,6 +16,10 @@ A lightweight and secure REST API for a collectible items e-commerce platform. T
     * **Prevents Mass Assignment:** Uses DTOs (Data Transfer Objects) to separate API requests from database models.
     * **Safe Credentials:** Reads database credentials from an environment-ignored `.properties` file.
 * **Scalable Architecture:** Built on a decoupled 3-layer (Controller-Service-Repository) pattern with a centralized `ApiRouter`.
+* **Real-Time Price Updates:**
+     * Uses Java WebSockets (via Jetty) to broadcast price changes instantly to all connected clients. When an admin updates an item's price, every user viewing the item sees the new price without a page refresh.
+
+* **Dynamic Search & Filtering:** The API supports advanced querying, allowing clients to filter the item catalog
 
 ## 💻 Tech Stack
 
