@@ -131,3 +131,14 @@ All API endpoints are prefixed with `/api/v1`.
 | `GET` | `/:id` | Gets a single item by its ID. |
 | `PUT` | `/:id` | Updates an existing item. |
 | `DELETE` | `/:id` | Deletes an item from the catalog. |
+
+## Views
+
+### Admin
+<img width="1919" height="772" alt="Screenshot 2025-11-04 110444" src="https://github.com/user-attachments/assets/afe035b6-4d07-4621-9d44-ebae67a04c94" />
+
+### Client (user)
+<img width="1919" height="820" alt="Screenshot 2025-11-04 110507" src="https://github.com/user-attachments/assets/dd1d2b05-6afc-442e-a7ca-35944efb1704" />
+
+
+
