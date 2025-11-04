@@ -2,6 +2,7 @@ package org.jared.trujillo;
 
 import org.jared.trujillo.controller.ItemController;
 import org.jared.trujillo.controller.ItemWebController;
+import org.jared.trujillo.controller.PriceUpdateSocketHandler;
 import org.jared.trujillo.controller.UserController;
 import org.jared.trujillo.dto.HttpSimpleResponse;
 import org.jared.trujillo.dto.HttpStatus;
@@ -43,6 +44,8 @@ public class ApiRouter {
     public void startRoutes() {
 
         staticFiles.location("/public");
+
+        webSocket("/price-updates", PriceUpdateSocketHandler.class);
 
         get("/", (req, res) -> {
             res.type("text/plain");

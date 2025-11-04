@@ -66,11 +66,11 @@ public class ItemController {
 
             Item updatedItem = this.itemService.updateItem(id, item);
             res.status(HttpStatus.OK.getStatusCode());
+            PriceUpdateSocketHandler.broadcast(json.toJson(updatedItem));
             return json.toJson(HttpSimpleResponse.success(updatedItem, "Item updated successfully"));
         });
 
         delete("/:id", (req,res) -> {
-
             String idString = req.params(":id");
             UUID id = UUID.fromString(idString);
             this.itemService.deleteItem(id);
